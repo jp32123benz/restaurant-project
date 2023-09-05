@@ -1,0 +1,16 @@
+#navbarSupportedContent ul li{
+    text-align: right;
+}
+
+.logo .blackColor{
+    color:black;
+    text-decoration:underline;
+}
+
+.logo h1.blackColor span{
+    color: #ce1212;
+}
+
+#navbarSupportedContent ul li a{
+    text-transform: capitalize;
+}

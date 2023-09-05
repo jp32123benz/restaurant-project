@@ -1,0 +1,19 @@
+const express = require('express')
+const { createUser, loginUser, updateUser, deleteUser, getUser } = require('../Controller/userController')
+const { registerValidation, loginValidation } = require('../middleware/validationMiddleware')
+const AuthMiddleware = require('../middleware/AuthMiddleware')
+const upload = require('../Controller/utilityController/multer')
+
+const router = express.Router()
+
+router.post('/create-user', registerValidation, createUser)
+
+router.post('/login-user', loginValidation, loginUser)
+
+router.put('/update-user', AuthMiddleware, upload.single('profile'), updateUser)
+
+router.delete('/delete-user', AuthMiddleware, deleteUser)
+
+router.post('/get-user', AuthMiddleware, getUser)
+
+module.exports = router

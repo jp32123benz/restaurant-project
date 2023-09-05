@@ -1,0 +1,197 @@
+* {
+	margin: 0;
+	padding: 0;
+	scroll-behavior: smooth;
+}
+
+.logo h1 span {
+	color: #ce1212;
+}
+
+.nav-item a {
+	font-size: 20px;
+}
+
+.nav-item {
+	margin-right: 10px;
+}
+
+.btn-book-a-table {
+	text-decoration: none;
+	background: #ce1212;
+	outline: none;
+	border: none;
+	color: white;
+	padding: 10px 20px;
+	border-radius: 50px;
+	width: 114px;
+	text-align: center;
+	transition: 0.5s;
+}
+
+.btn-book-a-table:hover {
+	color: #fff;
+	box-shadow: 0 8px 28px rgba(206, 18, 18, 0.45);
+}
+
+.btn-login-table {
+	text-decoration: none;
+	background: rgba(209, 207, 207, 0.4);
+	outline: none;
+	border: none;
+	color: #838383;
+	padding: 10px 20px;
+	border-radius: 50px;
+	width: 114px;
+	text-align: center;
+	transition: 0.5s;
+}
+
+header.container {
+	background: #fff;
+}
+
+header.navbar-fixed-top {
+	width: 100%;
+	position: fixed;
+	top: 0;
+	z-index: 997;
+	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 0px 0px;
+}
+
+.light {
+	background-color: #fff;
+}
+
+/* ---------------------------Hero Section--------------------------- */
+#hero {
+	width: 100%;
+	padding: 100px 30px;
+}
+
+.amantic {
+	font-family: 'Amatic SC', cursive !important;
+	font-size: 90px;
+	font-weight: 500;
+}
+
+.heroPage {
+	background-color: #eee;
+	margin: 82px 0 0;
+}
+
+.glightbox {
+	margin: 0 20px;
+	text-decoration: none;
+}
+
+.glightbox span {
+	margin-left: 5px;
+	text-decoration: none;
+	font-size: 17px;
+	font-weight: 600;
+	color: #212529;
+	transition: .5s;
+}
+
+.glightbox span:hover {
+	color: #ce1212;
+}
+
+/* ---------------------- Footer --------------------------- */
+
+.footer {
+	font-size: 14px;
+	background-color: #1f1f24;
+	padding: 50px 0;
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.footer .icon {
+	margin-right: 15px;
+	font-size: 24px;
+	line-height: 0;
+}
+
+.footer h4 {
+	font-size: 16px;
+	font-weight: bold;
+	position: relative;
+	padding-bottom: 5px;
+	color: #fff;
+}
+
+.footer .footer-links {
+	margin-bottom: 30px;
+}
+
+.footer .footer-links ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.footer .footer-links ul li {
+	padding: 10px 0;
+	display: flex;
+	align-items: center;
+}
+
+.footer .footer-links ul li:first-child {
+	padding-top: 0;
+}
+
+.footer .footer-links ul a {
+	color: rgba(255, 255, 255, 0.6);
+	transition: 0.3s;
+	display: inline-block;
+	line-height: 1;
+}
+
+.footer .footer-links ul a:hover {
+	color: #fff;
+}
+
+.footer .social-links a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	font-size: 16px;
+	color: rgba(255, 255, 255, 0.7);
+	margin-right: 10px;
+	transition: 0.3s;
+}
+
+.footer .social-links a:hover {
+	color: #fff;
+	border-color: #fff;
+}
+
+.footer .copyright {
+	text-align: center;
+	padding-top: 30px;
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer .credits {
+	padding-top: 4px;
+	text-align: center;
+	font-size: 13px;
+}
+
+.footer .credits a {
+	color: #fff;
+}
+
+@media (max-width: 991px) {
+	.nav-item .btn-book-a-table {
+		padding: 6px 0;
+	}
+	.btn-login-table {
+		margin-bottom: 10px;
+	}
+}
