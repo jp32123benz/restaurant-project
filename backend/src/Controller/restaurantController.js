@@ -67,7 +67,6 @@ module.exports = {
   updateRestaurantProfile: async (req, res) => {
     const { id } = req.params
     const newData = req.file.path;
-    console.log(newData);
     try {
       const findData = await Restaurant.findOne({ _id: id });
       if (findData) {
