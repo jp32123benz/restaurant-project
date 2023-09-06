@@ -19,10 +19,11 @@ module.exports = {
     getCategory: async (req, res) => {
         try {
             const findData = await Category.find();
-            if (findData != [] && findData)
+            if (findData != [] && findData) {
                 res.status(201).json({ statusCode: 201, findData });
+            }
             else
-                throw new Error
+                res.status(400).json({ statusCode: 400, msg: "Data doesn't exist" });
         } catch (err) {
             res.status(400).json({ statusCode: 400, err, msg: "Data doesn't exist" });
         }
