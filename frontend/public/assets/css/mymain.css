@@ -17,16 +17,16 @@
 }
 
 .btn-book-a-table {
-	text-decoration: none;
-	background: #ce1212;
-	outline: none;
-	border: none;
-	color: white;
+	text-decoration: none ;
+	background: #ce1212 ;
+	outline: none ;
+	border: none ;
+	color: white ;
 	padding: 10px 20px;
 	border-radius: 50px;
 	width: 114px;
 	text-align: center;
-	transition: 0.5s;
+	transition: 0.5s ;
 }
 
 .btn-book-a-table:hover {
@@ -36,7 +36,7 @@
 
 .btn-login-table {
 	text-decoration: none;
-	background: rgba(209, 207, 207, 0.4);
+	background: rgba(209, 207, 207, 0.4) ;
 	outline: none;
 	border: none;
 	color: #838383;
@@ -44,7 +44,12 @@
 	border-radius: 50px;
 	width: 114px;
 	text-align: center;
-	transition: 0.5s;
+	transition: 0.5s ;
+}
+
+
+.btn-login-table:hover{
+	box-shadow: 0 8px 28px rgba(109, 109, 109, 0.45);
 }
 
 header.container {
