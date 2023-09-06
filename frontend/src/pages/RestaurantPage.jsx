@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Navbar from '../components/restaurantpage/Navbar'
-import '../../node_modules/bootstrap/dist/js/bootstrap.min.js'
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import RestaurantNavbar from '../components/RestaurantNavbar'
 import '../components/restaurantpage/restaurant.css'
 import { Outlet } from 'react-router-dom'
 
@@ -32,8 +30,12 @@ const RestaurantPage = () => {
     }, [])
     return (
         <>
-            <Navbar />
-            <Outlet />
+            <div className="row d-flex justify-content-center">
+                <div className="col-lg-10">
+                    <RestaurantNavbar />
+                    <Outlet />
+                </div>
+            </div>
         </>
     )
 }
