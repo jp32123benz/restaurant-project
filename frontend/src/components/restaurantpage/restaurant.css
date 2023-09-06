@@ -14,3 +14,14 @@
 #navbarSupportedContent ul li a{
     text-transform: capitalize;
 }
+
+/* ------------------Resataurant Food List----------------- */
+
+#foodList{
+    padding: 2% 10px 30px;
+}
+/* 
+.FoodCardHead{
+    display: flex;
+    justify-content: center;
+} */
