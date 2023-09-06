@@ -42,7 +42,7 @@
 .form-container input[type="password"],
 .form-container input[type="email"],
 .form-container input[type="file"],
-select#role{
+select {
 	width: 100%;
 	padding: 10px;
 	margin-bottom: 23px;
