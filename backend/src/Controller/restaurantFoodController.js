@@ -1,16 +1,25 @@
 const RestaurantFood = require("../models/restaurantFoodModel");
 const fs = require("fs");
-// const db = 
+const cloudinary = require('cloudinary').v2
 
 module.exports = {
-
   createRestaurantFood: async (req, res) => {
-    const data = new RestaurantFood(req.body);
+    const { foodImages } = req.body
+    const uploadedImages = [];
     try {
+      for (const imageUrl of foodImages) {
+        try {
+          const result = await cloudinary.uploader.upload(imageUrl, { folder: 'foodImages' });
+          uploadedImages.push(result.secure_url);
+        } catch (error) {
+          console.error('Error uploading image:', error);
+        }
+      }
+      const data = new RestaurantFood({ ...req.body, foodImages: uploadedImages });
       await data.save();
       res
-        .status(201)
-        .json({ statusCode: 201, msg: "Restaurant Food created Succesfully" });
+        .status(200)
+        .json({ statusCode: 200, msg: "Restaurant Food created Succesfully" });
     } catch (err) {
       res.status(400).json({
         statusCode: 400,
@@ -76,10 +85,47 @@ module.exports = {
   },
 
   findRestaurantFood: async (req, res) => {
+    const pipeline = [
+      {
+        $lookup: {
+          from: "categories",
+          localField: "foodCategoryId",
+          foreignField: "_id",
+          as: "CategoryName",
+        },
+      },
+      {
+        $project: {
+          foodCategoryId: 0
+        }
+      },
+      {
+        $unwind:
+        {
+          path: "$CategoryName",
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "restaurantId",
+          foreignField: "_id",
+          as: "RestaurantName",
+        },
+      },
+      {
+        $unwind: "$RestaurantName", // Unwind the RestaurantName array (if there are multiple matches)
+      },
+      {
+        $project: {
+          restaurantId: 0,
+        }
+      }
+    ]
     try {
-      const findData = await RestaurantFood.find();
-      if (findData != [] && findData)
-        res.status(201).json({ statusCode: 201, findData });
+      const aggregationResult = await RestaurantFood.aggregate(pipeline)
+      if (aggregationResult != [] && aggregationResult)
+        res.status(201).json({ statusCode: 201, aggregationResult });
       else
         throw new Error
     } catch (err) {
