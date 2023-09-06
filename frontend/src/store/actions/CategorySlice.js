@@ -7,11 +7,13 @@ const initialState = {
 }
 
 export const fetchCategory = createAsyncThunk(
-    '/dashboard/create-food',
+    '/dashboard',
     async ({ rejectWithValue }) => {
+        console.log('are we here');
         try {
             const res = await fetch('http://localhost:4000/api/v1/category/get-category')
                 .then((data) => data.json())
+            console.log('res------------', res);
             return res
         } catch (err) {
             rejectWithValue(err)
@@ -20,18 +22,18 @@ export const fetchCategory = createAsyncThunk(
 )
 
 const categorySlice = createSlice({
-    name: 'food',
+    name: 'category',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchFood.fulfilled, (state, action) => {
+            .addCase(fetchCategory.fulfilled, (state, action) => {
                 state.allCategory.push(action.payload)
             })
-            .addCase(fetchFood.pending, (state, action) => {
+            .addCase(fetchCategory.pending, (state, action) => {
                 state.isLoading = true
             })
-            .addCase(fetchFood.rejected, (state, action) => {
+            .addCase(fetchCategory.rejected, (state, action) => {
                 state.isRejected = true
             })
     }
