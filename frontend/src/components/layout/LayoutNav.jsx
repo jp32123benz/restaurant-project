@@ -1,7 +1,7 @@
 import React from 'react'
-import NAvbar from '../NAvbar'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import NAvbar from '../NAvbar'
 
 const LayoutNav = ({ children }) => {
     const navigate = useNavigate()
