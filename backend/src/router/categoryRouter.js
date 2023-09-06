@@ -9,6 +9,4 @@ router.post("/create-category", AuthMiddleware, createCategory);
 
 router.get("/get-category", AuthMiddleware, getCategory);
 
-// router.get("/get-category", AuthMiddleware, getCategory);
-
 module.exports = router
