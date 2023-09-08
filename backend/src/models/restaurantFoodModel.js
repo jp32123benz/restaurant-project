@@ -11,7 +11,6 @@ const restaurantFoodSchema = new mongoose.Schema(
     foodImages: [
       {
         type: String,
-        required: [true, "Food images is compulsary"],
       },
     ],
     foodLabel: {
@@ -21,9 +20,11 @@ const restaurantFoodSchema = new mongoose.Schema(
       trim: true,
       enum: ['veg', 'non-veg']
     },
-    foodCategoryId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category',
+    foodCategory: {
+      type: String,
+      lowercase: true,
+      trim: true,
+      default: "fast food",
       required: [true, "Food category is compulsary"]
     },
     price: {

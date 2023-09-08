@@ -17,7 +17,7 @@ const { restaurantFoodValidation } = require("../middleware/restaurantValidation
 const router = express.Router();
 
 router.post(
-  "/create-restaurant-food",restaurantFoodValidation,AuthMiddleware,upload.array('foodImages', 4),
+  "/create-restaurant-food", restaurantFoodValidation, AuthMiddleware, upload.array('foodImages', 4),
   createRestaurantFood
 );
 

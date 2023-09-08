@@ -1,12 +1,17 @@
 const RestaurantFood = require("../models/restaurantFoodModel");
-const fs = require("fs");
 const cloudinary = require('cloudinary').v2
 
 module.exports = {
   createRestaurantFood: async (req, res) => {
-    const { foodImages } = req.body
+    const { foodImages, restaurantId, foodName } = req.body
     const uploadedImages = [];
     try {
+      const isExist = await RestaurantFood.findOne({ restaurantId, foodName })
+      if (isExist) {
+        return res.status(400).json({ statusCode: 400, msg: "Restaurant Food Already Exist" })
+      }
+      const data = new RestaurantFood(req.body);
+      await data.save();
       for (const imageUrl of foodImages) {
         try {
           const result = await cloudinary.uploader.upload(imageUrl, { folder: 'foodImages' });
@@ -15,13 +20,11 @@ module.exports = {
           console.error('Error uploading image:', error);
         }
       }
-      const data = new RestaurantFood({ ...req.body, foodImages: uploadedImages });
+      data.foodImages = uploadedImages
       await data.save();
-      res
-        .status(200)
-        .json({ statusCode: 200, msg: "Restaurant Food created Succesfully" });
+      return res.status(200).json({ statusCode: 200, msg: "Restaurant Food created Succesfully" });
     } catch (err) {
-      res.status(400).json({
+      return res.status(400).json({
         statusCode: 400,
         err,
         msg: "Restaurant Food can't be created",
@@ -34,14 +37,7 @@ module.exports = {
       const findData = await RestaurantFood.findOne({ _id: id });
       if (findData && findData != []) {
         const deleteData = await RestaurantFood.deleteOne({ _id: id });
-        findData.foodImages.map((val) => {
-          fs.unlink(`src/restaurantFoodImages/${val}`, (err) => {
-            if (err) {
-              throw err;
-            }
-            console.log("Delete File successfully.");
-          });
-        })
+
         res.status(201).json({
           statusCode: 201,
           msg: "Restaurant Food deleted Succesfully",
@@ -86,25 +82,25 @@ module.exports = {
 
   findRestaurantFood: async (req, res) => {
     const pipeline = [
-      {
-        $lookup: {
-          from: "categories",
-          localField: "foodCategoryId",
-          foreignField: "_id",
-          as: "CategoryName",
-        },
-      },
-      {
-        $project: {
-          foodCategoryId: 0
-        }
-      },
-      {
-        $unwind:
-        {
-          path: "$CategoryName",
-        },
-      },
+      // {
+      //   $lookup: {
+      //     from: "categories",
+      //     localField: "foodCategoryId",
+      //     foreignField: "_id",
+      //     as: "CategoryName",
+      //   },
+      // },
+      // {
+      //   $project: {
+      //     foodCategoryId: 0
+      //   }
+      // },
+      // {
+      //   $unwind:
+      //   {
+      //     path: "$CategoryName",
+      //   },
+      // },
       {
         $lookup: {
           from: "users",
@@ -127,7 +123,7 @@ module.exports = {
       if (aggregationResult != [] && aggregationResult)
         res.status(201).json({ statusCode: 201, aggregationResult });
       else
-        throw new Error
+        res.status(400).json({ statusCode: 400, err, msg: "Data doesn't exist" });
     } catch (err) {
       res.status(400).json({ statusCode: 400, err, msg: "Data doesn't exist" });
     }

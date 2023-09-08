@@ -30,9 +30,11 @@ const RestaurantPage = () => {
     }, [])
     return (
         <>
-            <div className="row d-flex justify-content-center">
-                <div className="col-lg-10">
+            <div className="row">
+                <div className="col-lg-2 col-md-3">
                     <RestaurantNavbar />
+                </div>
+                <div className="col-lg-10 col-md-9">
                     <Outlet />
                 </div>
             </div>

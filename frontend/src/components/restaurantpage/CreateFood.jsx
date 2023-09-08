@@ -1,23 +1,24 @@
-import { useEffect } from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 // import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 // import '../../../node_modules/bootstrap/dist/js/bootstrap.min.js'
+import { Category } from './Category'
 
 const CreateFood = () => {
     const token = sessionStorage.getItem('token')
     const navigate = useNavigate()
     const [registerData, setRegisterData] = useState({
         foodName: "",
-        foodCategoryId: "64f725cc589292fc04b66f12",
+        foodCategory: "",
         price: "",
         foodLabel: "veg",
         restaurantId: "",
         foodImages: []
     });
     const [image, setImage] = useState([]);
-    const [Category, setCategory] = useState([]);
-    const [handleError, setHandleError] = useState({ status: false, msg: "" })
+    // const [statusMsg, setStatusMsg] = useState('');
+    const [allFoodCategory, setAllFoodCategory] = useState([]);
+    const [handleError, setHandleError] = useState({ status: false, status: false, msg: "" })
     const handleRegisterData = (event) => {
         const { name, value } = event.target
         setRegisterData({ ...registerData, [name]: value })
@@ -54,39 +55,33 @@ const CreateFood = () => {
             )
             const result = await res.json()
             if (result.statusCode === 200) {
-                console.log('Successfully sended req')
+                setRegisterData({
+                    foodName: "",
+                    foodCategory: "",
+                    price: "",
+                    foodLabel: "veg",
+                    restaurantId: "",
+                    foodImages: []
+                })
+                setHandleError({ status: true, status: true, msg: result.msg })
             } else {
-                window.location.reload()
+                setHandleError({ status: true, status: false, msg: result.msg })
+                // setInterval(() => { window.location.reload() }, 2000)
             }
         } catch (err) {
-            setHandleError({ status: true, msg: err.msg })
-            window.location.reload()
-        }
-    }
-
-    const getCategory = async () => {
-        try {
-            const res = await fetch('http://localhost:4000/api/v1/category/get-category', {
-                method: "GET",
-                headers: {
-                    "Content-type": "application/json",
-                    "Authorization": `Bearers ${token}`
-                }
-            })
-            const result = await res.json()
-            setCategory(result.findData)
-        } catch (err) {
-            console.log('Err in create Food get category', err);
+            setHandleError({ status: true, status: false, msg: err.msg })
+            // window.location.reload()
         }
     }
 
     useEffect(() => {
-        getCategory()
-    }, [])
+        setAllFoodCategory(Category)
+    }, [Category])
+
     return (
         <>
             <div className="form-container foodFormContainer">
-                {handleError && <p className='bg-of-text text-bold fs-2 text-center'>{handleError.msg}</p>}
+                {handleError && <p className={`${handleError.status ? 'bg-of-success-text' : 'bg-of-text'} text-bold fs-2 text-center`}>{handleError.msg}</p>}
                 <h2>Add Food</h2>
                 <form className="register-form" onSubmit={handleRegisterFormSubmit} encType="multipart/form-data">
                     <div>
@@ -99,9 +94,9 @@ const CreateFood = () => {
                         </select>
                     </div>
                     <div>
-                        <select onChange={handleRegisterData} name="foodCategoryId" id="category" value={registerData.foodCategoryId}>
-                            {Category.map((val, ind) => {
-                                return < option value={val._id} key={ind}>{val.name}</option>
+                        <select onChange={handleRegisterData} name="foodCategory" id="category" value={registerData.foodCategory}>
+                            {allFoodCategory.map((val, ind) => {
+                                return < option value={val.name} key={ind}>{val.name}</option>
                             })}
                         </select>
                     </div>

@@ -8,7 +8,7 @@ const initialState = {
 
 
 export const fetchFood = createAsyncThunk(
-    'dashboard/food-list',
+    '/dashboard/food-list',
     async (_, { rejectWithValue }) => { // Remove the parameter and use underscore (_) to indicate no arguments are needed
         const token = sessionStorage.getItem('token');
         try {
@@ -16,7 +16,7 @@ export const fetchFood = createAsyncThunk(
                 method: "GET",
                 headers: {
                     "Content-type": "application/json",
-                    "Authorization": `Bearer ${token}` // Fix the typo "Bearers" to "Bearer"
+                    "Authorization": `Bearers ${token}`
                 }
             });
             const result = await res.json();
@@ -37,10 +37,10 @@ const FoodSlice = createSlice({
             .addCase(fetchFood.fulfilled, (state, action) => {
                 state.allFoodCollections = action.payload.aggregationResult
             })
-            .addCase(fetchFood.pending, (state, action) => {
+            .addCase(fetchFood.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(fetchFood.rejected, (state, action) => {
+            .addCase(fetchFood.rejected, (state) => {
                 state.isRejected = true
             })
     }

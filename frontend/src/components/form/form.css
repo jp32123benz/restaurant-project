@@ -87,6 +87,11 @@ select {
 	background-color: #d1040452;
 }
 
+.bg-of-success-text {
+	color: #23f010;
+	background-color: #04d12628;
+}
+
 .text-cursor{
 	cursor: pointer;
 }

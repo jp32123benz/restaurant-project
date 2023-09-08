@@ -19,7 +19,7 @@ module.exports = {
     if (restaurantName && address && contactNo && cuisineType && openingTime && closingTime) {
       next();
     } else {
-      res.status(200).json({ msg: 'Incorrect Details or Details already exists' });
+      return res.status(200).json({ msg: 'Incorrect Details or Details already exists' });
     }
   },
   restaurantLogin: async (req, res, next) => {
@@ -33,7 +33,7 @@ module.exports = {
     if (email && password) {
       next();
     } else {
-      res.status(200).json({ msg: 'Incorrect Details or Details already exists' });
+      return res.status(200).json({ msg: 'Incorrect Details or Details already exists' });
     }
   },
   restaurantFoodValidation: async (req, res, next) => {
@@ -45,7 +45,7 @@ module.exports = {
     if (foodName && restaurantId) {
       next();
     } else {
-      res.status(400).json({ msg: 'Incorrect Details' });
+      return res.status(400).json({ msg: 'Incorrect Details' });
     }
   }
 };
