@@ -22,6 +22,7 @@ import CreateFood from '../components/restaurantpage/CreateFood'
 import '../components/error/error.css'
 import Order from '../components/restaurantpage/Order'
 import Staff from '../components/restaurantpage/Staff'
+import RestaurantFullFoodCard from '../components/restaurantpage/RestaurantFullFoodCard'
 
 const Router = () => {
     const selector = useSelector((state) => state.user.role)
@@ -101,6 +102,12 @@ const Router = () => {
                                 <Staff />
                             </RoleCheck>
                         </Protected>} />
+
+                    <Route path='/dashboard/inventory/RestaurantFullFoodCard' element={
+                        <Protected>
+                            <RestaurantFullFoodCard />
+                        </Protected>
+                    } />
 
                 </Route>
                 < Route path='*' element={<Error />} />

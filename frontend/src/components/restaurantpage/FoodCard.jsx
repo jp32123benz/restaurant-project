@@ -5,11 +5,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SyncIcon from '@mui/icons-material/Sync';
+import { useNavigate } from 'react-router-dom'
 import './restaurant.css'
 // import { useState } from 'react';
 
 const FoodCard = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     // const [thunkData, setThunkData] = useState([])
     const FoodData = useSelector((state) => state.food.allFoodCollections)
     useEffect(() => {
@@ -22,7 +24,7 @@ const FoodCard = () => {
                     console.log(val);
                     return (
                         <>
-                            <div key={ind} className='text-capitalize col-md-4'>
+                            <div key={ind} className='text-capitalize col-md-4' onClick={navigate('/dashboard/inventory/RestaurantFullFoodCard', { state: val })}>
                                 <span>{ind + 1}</span>
                                 <div className="card mb-4" style={{ maxWidth: "540px" }}>
                                     <div className="row g-0 ">
