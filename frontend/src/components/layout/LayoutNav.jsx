@@ -5,7 +5,7 @@ import NAvbar from '../NAvbar'
 
 const LayoutNav = ({ children }) => {
     const navigate = useNavigate()
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
     useEffect(() => {
         if (token) {
             navigate('/dashboard')

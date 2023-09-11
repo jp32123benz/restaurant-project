@@ -29,10 +29,11 @@ const validateUser = {
   loginValidation: async (req, res, next) => {
     const data = { ...req.body };
     const YupSchema = Yup.object().shape({
-      email: Yup.string().min(5).max(255).email().required(),
+      email: Yup.string().email().required(),
       password: Yup.string().min(5).max(255).required(),
     });
     const { email, password } = await YupSchema.validate(data);
+    console.log('email and password === ', email, password);
     if (email && password) {
       next();
     } else {

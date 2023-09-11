@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { Category } from './Category'
 
 const CreateFood = () => {
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
     const navigate = useNavigate()
     const [registerData, setRegisterData] = useState({
         foodName: "",
@@ -40,7 +40,7 @@ const CreateFood = () => {
 
     const handleRegisterFormSubmit = async (e) => {
         e.preventDefault()
-        const restaurantId = sessionStorage.getItem('id')
+        const restaurantId = localStorage.getItem('id')
         registerData.restaurantId = restaurantId
         registerData.foodImages = image
         try {

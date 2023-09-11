@@ -2,6 +2,7 @@ const User = require('../models/userModel')
 const bcrypt = require('bcryptjs')
 const fs = require('fs')
 const cloudinary = require('cloudinary').v2
+const jwt = require('jsonwebtoken')
 
 module.exports = {
     createUser: async (req, res) => {
@@ -80,6 +81,41 @@ module.exports = {
             }
         } catch (err) {
             res.status(400).json({ statusCode: 400, err, msg: "User doesn't exist" })
+        }
+    },
+    forgotUserPassword: async (req, res) => {
+        try {
+            const isUser = await User.findOne({ email: req.body.email });
+            if (!isUser)
+                return res.status(400).json({ msg: "user with given email doesn't exist" });
+
+            if (isUser) {
+                const token = isUser.token
+                const isVerified = jwt.verify(token, process.env.SECRET_KEY)
+                if (isVerified) {
+                    const link = `${process.env.BASE_URL}/update-password/${isUser._id}/${isUser.token}`;
+                    await sendEmail(isUser.email, "Password reset", link);
+                    return res.status(200).json({ msg: "password reset link sent to your email account", token });
+                }
+            }
+        } catch (error) {
+            return res.status(400).json({ statusCode: 400, msg: "An error occured", error });
+        }
+    },
+    updateUserPassword: async (req, res) => {
+        const { id, token } = req.params
+        const { newPassword } = req.body
+        try {
+            const isUser = await User.findOne({ _id: id })
+            if (isUser) {
+                const isToken = jwt.verify(token, process.env.SECRET_KEY)
+                if (isToken) {
+                    isUser.password = await bcrypt.hash(newPassword, 10)
+                    return res.status(200).json({ statusCode: 200, msg: "Password Updated Successfully" })
+                }
+            } else return res.status(400).json({ statusCode: 400, msg: "User does not Exist" })
+        } catch (err) {
+            return res.status(400).json({ statusCode: 400, msg: "User does not Exist", err })
         }
     }
 }

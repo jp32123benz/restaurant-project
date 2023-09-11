@@ -1,3 +1,9 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 #navbarSupportedContent ul li{
     text-align: right;
 }
@@ -295,4 +301,115 @@
   
 .leftPaddForIcon{
   margin-left: 20px;
+}
+
+/* -------------------- Sidebar -------------------- */
+/* 
+.motionSidebar{
+  background: rgb(0,7,61);
+  color:white;
+  height: 100vh;
+}
+
+.top_section{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 10px;
+}
+
+.bars{
+  font-size: 20px;
+}
+.DashLogo{
+  font-size: 30px;
+  line-height: 0;
+}
+
+.link{
+  display: flex;
+  color:white;
+  gap:20px;
+  align-items: center;
+  line-height: 30px;
+  padding: 10px 10px;
+}
+
+.link:hover{
+  border-right: 4px solid white;
+  transition:0.2s cubic-bezier(0.6,-0.28,0.735,0.045);
+  background: rgb(45,51,89);
+}
+
+.routes{
+  padding:10px 0;
+}
+
+.link .link_text{
+  color:white;
+  font-size: 21px;
+}
+
+.link .icons{
+  font-size: 20px;
+} */
+
+.motionSidebar {
+  background: rgb(0, 7, 61);
+  color: white;
+  height: 100vh;
+  transition: width 0.3s; /* Add transition for smooth animation */
+}
+
+.open {
+  width: 300px;
+}
+
+.closed {
+  width: 50px;
+}
+
+.top_section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 10px;
+}
+
+.bars {
+  font-size: 20px;
+}
+
+.DashLogo {
+  font-size: 30px;
+  line-height: 0;
+}
+
+.link {
+  display: flex;
+  color: white;
+  gap: 20px;
+  align-items: center;
+  line-height: 30px;
+  padding: 10px 10px;
+  overflow: hidden; /* Hide text when the sidebar is collapsed */
+}
+
+.link:hover {
+  border-right: 4px solid white;
+  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  background: rgb(45, 51, 89);
+}
+
+.routes {
+  padding: 10px 0;
+}
+
+.link .link_text {
+  color: white;
+  font-size: 21px;
+}
+
+.link .icons {
+  font-size: 20px;
 }

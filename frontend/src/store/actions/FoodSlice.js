@@ -10,7 +10,7 @@ const initialState = {
 export const fetchFood = createAsyncThunk(
     '/dashboard/food-list',
     async (_, { rejectWithValue }) => { // Remove the parameter and use underscore (_) to indicate no arguments are needed
-        const token = sessionStorage.getItem('token');
+        const token = localStorage.getItem('token');
         try {
             const res = await fetch('http://localhost:4000/api/v1/restaurants-food/find-restaurant-food', {
                 method: "GET",

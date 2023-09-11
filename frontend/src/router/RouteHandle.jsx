@@ -23,10 +23,12 @@ import '../components/error/error.css'
 import Order from '../components/restaurantpage/Order'
 import Staff from '../components/restaurantpage/Staff'
 import RestaurantFullFoodCard from '../components/restaurantpage/RestaurantFullFoodCard'
+import ForgotPassword from '../pages/ForgotPassword'
+import UpdatePassword from '../pages/UpdatePassword'
 
 const Router = () => {
     const selector = useSelector((state) => state.user.role)
-    const role = sessionStorage.getItem('role')
+    const role = localStorage.getItem('role')
     const [user_Role, setUser_Role] = useState('')
     const [isLoading, setIsLoading] = useState(true);
 
@@ -59,6 +61,16 @@ const Router = () => {
                 <Route exact path='/login' element={
                     <LayoutNav>
                         <Login />
+                    </LayoutNav>} />
+
+                <Route exact path='/forgot-password' element={
+                    <LayoutNav>
+                        <ForgotPassword />
+                    </LayoutNav>} />
+
+                <Route exact path='/update-password/:id/:token' element={
+                    <LayoutNav>
+                        <UpdatePassword />
                     </LayoutNav>} />
 
                 <Route exact path='/dashboard' element={
@@ -108,8 +120,8 @@ const Router = () => {
                             <RestaurantFullFoodCard />
                         </Protected>
                     } />
-
                 </Route>
+
                 < Route path='*' element={<Error />} />
             </Routes >
         </>

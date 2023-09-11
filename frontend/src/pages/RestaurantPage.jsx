@@ -7,8 +7,8 @@ const RestaurantPage = () => {
     const [userData, setUserData] = useState({})
 
     const getUserData = async () => {
-        const token = sessionStorage.getItem('token')
-        const id = sessionStorage.getItem('id')
+        const token = localStorage.getItem('token')
+        const id = localStorage.getItem('id')
         try {
 
             const res = await fetch('http://localhost:4000/api/v1/user/get-user', {
@@ -30,14 +30,12 @@ const RestaurantPage = () => {
     }, [])
     return (
         <>
-            <div className="row">
-                <div className="col-lg-2 col-md-3">
                     <RestaurantNavbar />
-                </div>
-                <div className="col-lg-10 col-md-9">
+                {/* </div>
+                <div className="col-lg-10 col-md-9"> */}
                     <Outlet />
-                </div>
-            </div>
+                {/* </div>
+            </div> */}
         </>
     )
 }

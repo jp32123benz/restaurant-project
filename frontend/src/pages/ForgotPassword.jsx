@@ -6,7 +6,7 @@ import { getUserData } from '../store/actions/userSlice'
 import axios from 'axios'
 
 
-const Login = () => {
+const ForgotPassword = () => {
     const dispatch = useDispatch()
     const location = useLocation()
     const navigate = useNavigate()
@@ -24,7 +24,7 @@ const Login = () => {
 
     const handleLoginSubmit = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:4000/api/v1/user/forgot-user', loginData)
+        axios.post('http://localhost:4000/api/v1/user/forgot-user-password', loginData)
             .then(response => {
                 if (response.data.statusCode === 200) {
                     const { role, token, id } = response.data
@@ -51,26 +51,17 @@ const Login = () => {
         <>
             <div className="form-container">
                 {handleError.status && <p className='bg-of-text text-bold fs-2 text-center'>{handleError.msg}</p>}
-                <h2>Login</h2>
+                <h2>Verification mail</h2>
                 <form className="login-form" onSubmit={handleLoginSubmit}>
                     <div>
                         <input value={loginData.email} name='email' onChange={handleLoginData} type="email" id="email" placeholder="Email" required />
                     </div>
-                    <div>
-                        <input value={loginData.password} name='password' onChange={handleLoginData}
-                            type="password"
-                            id="password"
-                            placeholder="Password"
-                            required
-                        />
-                    </div>
-                    <button type="submit">Login</button>
-                    <p className="toggle-form">Not registered? Click here to register</p>
-                    {handleError.status && <p className="toggle-form" onClick={() => navigate('/forgotPassword')}>Forgot Password?</p>}
+                    <button type="submit">Submit</button>
+                    <p className="toggle-form">Go Back</p>
                 </form>
             </div>
         </>
     )
 }
 
-export default Login
+export default ForgotPassword

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 
-const AuthMiddleware = async (req, res, next) => {
+const AuthMiddleware = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1]
     if (token) {
         const decodedToken = jwt.verify(token, process.env.SECRET_KEY)

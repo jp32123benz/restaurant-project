@@ -5,7 +5,7 @@ import './dashboard.css'
 const Header = ({ Sidebar }) => {
   // const navigate = useNavigate()
   const handleLogOut = () => {
-    sessionStorage.clear()
+    localStorage.clear()
     window.location.href = '/';
     // navigate('/')  NOT WORKING
   }
