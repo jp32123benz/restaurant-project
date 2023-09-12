@@ -3,19 +3,19 @@ const cloudinary = require('cloudinary').v2
 
 module.exports = {
   createRestaurantFood: async (req, res) => {
-    const { foodImages, restaurantId, foodName } = req.body
+    const { foodImages, restaurantId, foodName, foodCategory, price, foodLabel } = req.body
     const uploadedImages = [];
     try {
       const isExist = await RestaurantFood.findOne({ restaurantId, foodName })
       if (isExist) {
         return res.status(400).json({ statusCode: 400, msg: "Restaurant Food Already Exist" })
       }
-      const data = new RestaurantFood(req.body);
+      const data = new RestaurantFood({ restaurantId, foodName, foodCategory, price, foodLabel });
       await data.save();
       for (const imageUrl of foodImages) {
         try {
           const result = await cloudinary.uploader.upload(imageUrl, { folder: 'foodImages' });
-          uploadedImages.push(result.secure_url);
+          uploadedImages.push({ url: result.secure_url, public_id: result.public_id });
         } catch (error) {
           console.error('Error uploading image:', error);
         }
@@ -32,24 +32,23 @@ module.exports = {
     }
   },
   deleteRestaurantFood: async (req, res) => {
-    const { id } = req.body;
+    const { id } = req.params;
     try {
       const findData = await RestaurantFood.findOne({ _id: id });
       if (findData && findData != []) {
-        const deleteData = await RestaurantFood.deleteOne({ _id: id });
-
-        res.status(201).json({
-          statusCode: 201,
-          msg: "Restaurant Food deleted Succesfully",
-          deleteData,
-        });
-      } else throw new Error();
+        let publicKeys = findData.foodImages.map((val) => val.public_id)
+        const result = await Promise.all(publicKeys.map((publicId) => cloudinary.uploader.destroy(publicId, { type: 'upload', resource_type: 'image' })));
+        if (result) {
+          const deleteData = await RestaurantFood.deleteOne({ _id: id });
+          return res.status(201).json({
+            statusCode: 201,
+            msg: "Restaurant Food deleted Succesfully",
+            deleteData,
+          });
+        } else return res.status(400).json({ statusCode: 400, msg: "Restaurant Food can't be deleted", });
+      } else return res.status(400).json({ statusCode: 400, msg: "Restaurant Food can't be deleted", });
     } catch (err) {
-      res.status(400).json({
-        statusCode: 400,
-        err,
-        msg: "Restaurant Food can't be deleted",
-      });
+      return res.status(400).json({ statusCode: 400, err, msg: "Restaurant Food can't be deleted", });
     }
   },
 
@@ -65,15 +64,15 @@ module.exports = {
         if (isDeleted.modifiedCount !== 0) {
           fs.unlink(`src/restaurantFoodImages/${image}`, (err) => {
             if (err) {
-              throw new Error()
+              res.status(400).json({ statusCode: 200, msg: "Failed to Delete Image" })
             }
           })
           res.status(200).json({ statusCode: 200, msg: "Image Deleted Successfully" })
         } else {
-          throw new Error()
+          res.status(400).json({ statusCode: 200, msg: "Failed to Delete Image" })
         }
       } else {
-        throw new Error()
+        res.status(400).json({ statusCode: 200, msg: "Failed to Delete Image" })
       }
     } catch (err) {
       res.status(400).json({ statusCode: 200, msg: "Failed to Delete Image" })
@@ -82,25 +81,6 @@ module.exports = {
 
   findRestaurantFood: async (req, res) => {
     const pipeline = [
-      // {
-      //   $lookup: {
-      //     from: "categories",
-      //     localField: "foodCategoryId",
-      //     foreignField: "_id",
-      //     as: "CategoryName",
-      //   },
-      // },
-      // {
-      //   $project: {
-      //     foodCategoryId: 0
-      //   }
-      // },
-      // {
-      //   $unwind:
-      //   {
-      //     path: "$CategoryName",
-      //   },
-      // },
       {
         $lookup: {
           from: "users",

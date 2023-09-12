@@ -39,7 +39,10 @@ module.exports = {
   restaurantFoodValidation: async (req, res, next) => {
     const yupSchema = yup.object().shape({
       foodName: yup.string().required(),
-      restaurantId: yup.string().required()
+      foodCategory: yup.string().required(),
+      restaurantId: yup.string().required(),
+      price: yup.number().required(),
+      foodLabel: yup.string().required(),
     });
     const { foodName, restaurantId } = await yupSchema.validate(req.body);
     if (foodName && restaurantId) {

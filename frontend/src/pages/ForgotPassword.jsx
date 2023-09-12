@@ -1,63 +1,49 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import '../components/form/form.css'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { getUserData } from '../store/actions/userSlice'
 import axios from 'axios'
 
 
 const ForgotPassword = () => {
-    const dispatch = useDispatch()
-    const location = useLocation()
     const navigate = useNavigate()
     const [handleError, setHandleError] = useState({ status: false, msg: "" })
-    const [loginData, setLoginData] = useState({
+    const [forgotPasswordData, setForgotPasswordData] = useState({
         email: "",
         password: ""
     });
 
 
-    const handleLoginData = (e) => {
+    const handleForgotPasswordData = (e) => {
         const { name, value } = e.target
-        setLoginData({ ...loginData, [name]: value })
+        setForgotPasswordData({ ...forgotPasswordData, [name]: value })
     }
 
-    const handleLoginSubmit = (e) => {
+    const handlePasswordSubmit = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:4000/api/v1/user/forgot-user-password', loginData)
+        axios.post('http://localhost:4000/api/v1/user/forgot-user-password', forgotPasswordData)
             .then(response => {
                 if (response.data.statusCode === 200) {
-                    const { role, token, id } = response.data
-                    localStorage.setItem('token', token)
-                    localStorage.setItem('role', role)
-                    localStorage.setItem('id', id)
-                    dispatch(getUserData(role))
-                    if (role === 'staff' || role === 'admin' || role === 'user' || role === 'restaurant') {
-                        navigate('/dashboard')
-                    }
+                    const { token } = response.data
+                    sessionStorage.setItem('token', token)
+                    setHandleError({ status: true, msg: response.data.msg })
                 }
             }).catch(err => {
                 setHandleError({ status: true, msg: err.response.data.msg })
             })
     }
 
-    useEffect(() => {
-        if (location.state != null) {
-            setLoginData({ email: location.state.email, password: location.state.password })
-        }
-    }, [location])
-
     return (
         <>
             <div className="form-container">
                 {handleError.status && <p className='bg-of-text text-bold fs-2 text-center'>{handleError.msg}</p>}
                 <h2>Verification mail</h2>
-                <form className="login-form" onSubmit={handleLoginSubmit}>
+                <form className="login-form" onSubmit={handlePasswordSubmit}>
                     <div>
-                        <input value={loginData.email} name='email' onChange={handleLoginData} type="email" id="email" placeholder="Email" required />
+                        <input value={forgotPasswordData.email} name='email' onChange={handleForgotPasswordData} type="email" id="email" placeholder="Email" required />
                     </div>
                     <button type="submit">Submit</button>
-                    <p className="toggle-form">Go Back</p>
+                    <p className="toggle-form" onClick={() => navigate(-1)}>Go Back</p>
                 </form>
             </div>
         </>

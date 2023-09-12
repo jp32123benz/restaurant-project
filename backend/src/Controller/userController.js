@@ -87,17 +87,16 @@ module.exports = {
         try {
             const isUser = await User.findOne({ email: req.body.email });
             if (!isUser)
-                return res.status(400).json({ msg: "user with given email doesn't exist" });
+                return res.status(400).json({ msg: "User with given email doesn't exist" });
 
-            if (isUser) {
-                const token = isUser.token
-                const isVerified = jwt.verify(token, process.env.SECRET_KEY)
-                if (isVerified) {
-                    const link = `${process.env.BASE_URL}/update-password/${isUser._id}/${isUser.token}`;
-                    await sendEmail(isUser.email, "Password reset", link);
-                    return res.status(200).json({ msg: "password reset link sent to your email account", token });
-                }
-            }
+            const token = isUser.token
+            const isVerified = jwt.verify(token, process.env.SECRET_KEY)
+            if (isVerified) {
+                const link = `${process.env.BASE_URL}/update-password/${isUser._id}/${isUser.token}`;
+                await sendEmail(isUser.email, "Password reset", link);
+                return res.status(200).json({ msg: "Password reset link sent to your email account", token });
+            } else
+                return res.status(400).json({ msg: "User with given email doesn't exist" });
         } catch (error) {
             return res.status(400).json({ statusCode: 400, msg: "An error occured", error });
         }
@@ -113,9 +112,9 @@ module.exports = {
                     isUser.password = await bcrypt.hash(newPassword, 10)
                     return res.status(200).json({ statusCode: 200, msg: "Password Updated Successfully" })
                 }
-            } else return res.status(400).json({ statusCode: 400, msg: "User does not Exist" })
+            } else return res.status(400).json({ statusCode: 400, msg: "Failed, Please try again !" })
         } catch (err) {
-            return res.status(400).json({ statusCode: 400, msg: "User does not Exist", err })
+            return res.status(400).json({ statusCode: 400, msg: "Failed, Please try again !", err })
         }
     }
 }

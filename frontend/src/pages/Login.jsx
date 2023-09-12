@@ -24,7 +24,7 @@ const Login = () => {
 
     const handleLoginSubmit = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:4000/api/v1/user/forgot-user', loginData)
+        axios.post('http://localhost:4000/api/v1/user/login-user', loginData)
             .then(response => {
                 if (response.data.statusCode === 200) {
                     const { role, token, id } = response.data
@@ -66,7 +66,7 @@ const Login = () => {
                     </div>
                     <button type="submit">Login</button>
                     <p className="toggle-form">Not registered? Click here to register</p>
-                    {handleError.status && <p className="toggle-form" onClick={() => navigate('/forgotPassword')}>Forgot Password?</p>}
+                    {handleError.status && <p className="toggle-form" onClick={() => navigate('/forgot-password')}>Forgot Password?</p>}
                 </form>
             </div>
         </>

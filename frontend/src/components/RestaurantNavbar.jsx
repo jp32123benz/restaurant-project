@@ -28,7 +28,7 @@ const RestaurantNavbar = () => {
             icon: <FaPlusCircle />,
         },
         {
-            path: '/dashboard/food-list',
+            path: '/dashboard/inventory',
             name: 'Food List',
             icon: <FaHamburger />,
         },
@@ -68,7 +68,7 @@ const RestaurantNavbar = () => {
                     </div>
                     <div className="routes">
                         {routes.map((route, ind) => (
-                            <Link to={route.path} key={ind} className="link">
+                            <Link to={route.path} key={ind} className="link" onClick={() => { setIsOpen(false); }}>
                                 <div className="icons">{route.icon}</div>
                                 {isOpen && <div className="link_text">{route.name}</div>}
                             </Link>

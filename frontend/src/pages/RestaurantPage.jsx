@@ -30,12 +30,12 @@ const RestaurantPage = () => {
     }, [])
     return (
         <>
-                    <RestaurantNavbar />
-                {/* </div>
-                <div className="col-lg-10 col-md-9"> */}
+            <div className="d-flex flex-row justify-content-center">
+                <RestaurantNavbar />
+                <div className='ms-5 w-100'>
                     <Outlet />
-                {/* </div>
-            </div> */}
+                </div>
+            </div>
         </>
     )
 }

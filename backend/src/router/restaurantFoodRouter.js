@@ -29,7 +29,7 @@ router.get("/find-restaurant-food", AuthMiddleware, findRestaurantFood);
 
 router.get("/find-restaurant-food/:id", AuthMiddleware, findSingleRestaurantFood);
 
-router.delete("/delete-restaurant-food", AuthMiddleware, deleteRestaurantFood);
+router.delete("/delete-restaurant-food/:id", AuthMiddleware, deleteRestaurantFood);
 
 router.delete("/delete-restaurant-food-image", AuthMiddleware, deleteRestaurantFoodImage);
 

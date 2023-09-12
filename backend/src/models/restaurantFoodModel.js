@@ -10,7 +10,12 @@ const restaurantFoodSchema = new mongoose.Schema(
     },
     foodImages: [
       {
-        type: String,
+        url: {
+          type: String,
+        },
+        public_id: {
+          type: String,
+        }
       },
     ],
     foodLabel: {

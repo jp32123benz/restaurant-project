@@ -96,7 +96,7 @@ const Router = () => {
                                 <CreateFood />
                             </RoleCheck>
                         </Protected>} />
-                    <Route path='/dashboard/food-list' element={
+                    <Route path='/dashboard/inventory' element={
                         <Protected>
                             <RoleCheck userRole={user_Role} >
                                 <FoodLIst />

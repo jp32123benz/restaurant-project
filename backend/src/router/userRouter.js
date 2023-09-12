@@ -18,6 +18,6 @@ router.post('/get-user', AuthMiddleware, getUser)
 
 router.post('/forgot-user-password', forgotUserPassword)
 
-router.put('/password-reset/:id/:token', updateUserPassword)
+router.put('/password-reset/:id/:token', AuthMiddleware, updateUserPassword)
 
 module.exports = router
