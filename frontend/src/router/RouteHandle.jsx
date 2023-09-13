@@ -21,6 +21,7 @@ import FoodLIst from '../components/restaurantpage/FoodLIst'
 import CreateFood from '../components/restaurantpage/CreateFood'
 import '../components/error/error.css'
 import Order from '../components/restaurantpage/Order'
+import UpdateFood from '../components/restaurantpage/UpdateFood'
 import Staff from '../components/restaurantpage/Staff'
 import RestaurantFullFoodCard from '../components/restaurantpage/RestaurantFullFoodCard'
 import ForgotPassword from '../pages/ForgotPassword'
@@ -102,6 +103,12 @@ const Router = () => {
                                 <FoodLIst />
                             </RoleCheck>
                         </Protected>} />
+                    <Route path='/dashboard/update-food' element={
+                        <Protected>
+                            <RoleCheck userRole={user_Role} >
+                                <UpdateFood />
+                            </RoleCheck>
+                        </Protected>} />
                     <Route path='/dashboard/order' element={
                         <Protected>
                             <RoleCheck userRole={user_Role} >
@@ -129,3 +136,6 @@ const Router = () => {
 }
 
 export default Router
+
+// for user only
+// onClick={() => navigate('/dashboard/inventory/RestaurantFullFoodCard', { state: val })} 

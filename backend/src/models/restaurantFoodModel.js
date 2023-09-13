@@ -37,6 +37,9 @@ const restaurantFoodSchema = new mongoose.Schema(
       required: [true, "Food Price is compulsary"],
       trim: true
     },
+    description: {
+      type: String,
+    },
     restaurantId:
     {
       type: mongoose.Schema.Types.ObjectId,

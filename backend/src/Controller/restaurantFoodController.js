@@ -53,29 +53,15 @@ module.exports = {
   },
 
   deleteRestaurantFoodImage: async (req, res) => {
-    const { image, id } = req.body
-
+    const { id, public_id } = req.params
     try {
       const isId = await RestaurantFood.findOne({ _id: id })
       if (isId) {
-        const newData = isId.foodImages.filter((val) => val != image)
-        const isDeleted = await RestaurantFood.updateOne({ _id: isId._id }, { $set: { foodImages: newData } })
-
-        if (isDeleted.modifiedCount !== 0) {
-          fs.unlink(`src/restaurantFoodImages/${image}`, (err) => {
-            if (err) {
-              res.status(400).json({ statusCode: 200, msg: "Failed to Delete Image" })
-            }
-          })
-          res.status(200).json({ statusCode: 200, msg: "Image Deleted Successfully" })
-        } else {
-          res.status(400).json({ statusCode: 200, msg: "Failed to Delete Image" })
-        }
-      } else {
-        res.status(400).json({ statusCode: 200, msg: "Failed to Delete Image" })
+        const deleteImg = await cloudinary.uploader.destroy(public_id, { type: 'upload', resource_type: 'image' })
+        return res.status(200).json({ statusCode: 200, msg: "Image Deleted Successfully", deleteImg })
       }
     } catch (err) {
-      res.status(400).json({ statusCode: 200, msg: "Failed to Delete Image" })
+      res.status(400).json({ statusCode: 200, msg: "Failed to Delete Image", err })
     }
   },
 
@@ -124,8 +110,9 @@ module.exports = {
   updateRestaurantFood: async (req, res) => {
     const newData = req.body;
     try {
+      console.log('in------------', req.body);
       const updateData = await RestaurantFood.findByIdAndUpdate(
-        { _id: req.body.id },
+        { _id: req.body.foodId },
         newData,
         { new: true }
       );

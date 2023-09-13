@@ -42,7 +42,7 @@
 .form-container input[type="password"],
 .form-container input[type="email"],
 .form-container input[type="file"],
-select {
+select,textarea {
 	width: 100%;
 	padding: 10px;
 	margin-bottom: 23px;
@@ -98,4 +98,8 @@ select {
 
 .foodFormContainer{
 	margin-top: 2%;
+}
+
+.bg-of-warning-text{
+	background-color: #ffee002a;
 }

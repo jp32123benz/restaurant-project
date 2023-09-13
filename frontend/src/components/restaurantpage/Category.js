@@ -1,17 +1,17 @@
 export const Category = [
     {
-        name: 'Fast Food'
+        name: 'fast food'
     },
     {
-        name: 'Indian Thali'
+        name: 'indian thali'
     },
     {
-        name: 'Punjabi'
+        name: 'punjabi'
     },
     {
-        name: 'Chinese'
+        name: 'chinese'
     },
     {
-        name: 'Sandwich'
+        name: 'sandwich'
     }
 ];

@@ -373,3 +373,117 @@
 .link .icons {
   font-size: 20px;
 }
+
+/* ------------------------- RestaurantfullFoodCard ------------------------- */
+
+#fullFoodCard{
+  padding: 10px 30px;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 59%;
+  height: 86%;
+  object-fit: cover;
+}
+
+.handleNameofRestaurant{
+  margin-top: 32px;
+}
+
+.handleCenterofRestaurant{
+  gap: 25px;
+}
+
+.gap-4{
+  gap:5px !important;
+}
+
+.hotelName{
+  font-weight: bolder;
+}
+
+.goBackButtonInFullCard{
+	text-decoration: none ;
+	background: rgba(0, 4, 255, 0.671) ;
+	outline: none ;
+	border: none ;
+	color: white ;
+	padding: 10px 20px;
+	border-radius: 50px;
+	width: 114px;
+	text-align: center;
+	transition: 0.5s ;
+}
+
+@media (max-width: 992px) {
+  .swiper-slide img {
+    width: 80%;
+    height: 80%;
+  }
+}
+
+@media (max-width: 425px) {
+  .swiper-slide img {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .handleNameofRestaurant{
+    margin-top: 10px;
+  }
+  
+  .handleCenterofRestaurant{
+    text-align: center;
+  }
+
+  /* .goBackButtonInFullCard{
+    position: relative;
+  } */
+}
+
+
+/* --------------------- UpdateFood --------------------- */
+
+#UpdateFood{
+  width: 100%;
+  padding: 10px 30px;
+}
+
+.FoodForm input[type="text"],
+.FoodForm input[type="password"],
+.FoodForm input[type="email"],
+.FoodForm input[type="file"],
+select,textarea {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 23px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+.imageCardForUpdate{
+  display: flex;
+  flex-direction: column;
+}
+
+.imageCardForUpdate img{
+  width: 22rem;
+  height: 15rem;
+}

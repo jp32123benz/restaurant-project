@@ -51,7 +51,7 @@ const FoodCard = () => {
                                         {val.foodLabel === 'veg' ? (<RadioButtonCheckedIcon className='text-success fs-3' />) : (<RadioButtonCheckedIcon className='text-danger' />)}
                                     </div>
                                     <div className=' p-2 d-flex justify-content-start'>
-                                        <span><SyncIcon className='text-warning fs-1 foodItemButton' /></span>
+                                        <span><SyncIcon className='text-warning fs-1 foodItemButton' onClick={() => navigate('/dashboard/update-food', { state: val })} /></span>
                                         <span><DeleteIcon className='text-danger fs-1 leftPaddForIcon foodItemButton' onClick={() => handleFoodCardDelete(val._id)} /></span>
                                     </div>
                                 </div>

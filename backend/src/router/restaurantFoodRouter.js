@@ -31,6 +31,6 @@ router.get("/find-restaurant-food/:id", AuthMiddleware, findSingleRestaurantFood
 
 router.delete("/delete-restaurant-food/:id", AuthMiddleware, deleteRestaurantFood);
 
-router.delete("/delete-restaurant-food-image", AuthMiddleware, deleteRestaurantFoodImage);
+router.delete("/delete-restaurant-food-image/:id/:public_id", AuthMiddleware, deleteRestaurantFoodImage);
 
 module.exports = router;
