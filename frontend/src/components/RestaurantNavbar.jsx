@@ -63,7 +63,7 @@ const RestaurantNavbar = () => {
                     <div className="top_section">
                         <h1 className="DashLogo" style={{ display: isOpen ? 'block' : 'none' }}>Yummy</h1>
                         <div className="bars" onClick={() => setIsOpen(!isOpen)}>
-                            <FaBars />
+                            <FaBars className='text-cursor' />
                         </div>
                     </div>
                     <div className="routes">

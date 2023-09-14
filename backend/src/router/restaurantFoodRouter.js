@@ -9,7 +9,7 @@ const {
   deleteRestaurantFood,
   findSingleRestaurantFood,
   updateRestaurantFood,
-  updateRestaurantFoodImage,
+  // updateRestaurantFoodImage,
   deleteRestaurantFoodImage
 } = require("../Controller/restaurantFoodController");
 const { restaurantFoodValidation } = require("../middleware/restaurantValidationMiddleware");
@@ -21,7 +21,7 @@ router.post(
   createRestaurantFood
 );
 
-router.put("/update-restaurant-food-image", AuthMiddleware, updateRestaurantFoodImage);
+// router.put("/update-restaurant-food-image", AuthMiddleware, updateRestaurantFoodImage);
 
 router.put("/update-restaurant-food", AuthMiddleware, updateRestaurantFood);
 

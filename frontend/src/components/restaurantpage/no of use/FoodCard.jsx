@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect } from 'react';
-import { fetchFood } from '../../store/actions/FoodSlice'
+import { fetchFood } from '../../../store/actions/FoodSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -25,6 +25,11 @@ const FoodCard = () => {
         }
     }
 
+    const handleUpdateClick = (value) => {
+        console.log('is clicked');
+
+    }
+
     const FoodData = useSelector((state) => state.food.allFoodCollections)
     useEffect(() => {
         dispatch(fetchFood())
@@ -32,7 +37,6 @@ const FoodCard = () => {
     return (
         <>
             {FoodData.map((val, ind) => {
-                console.log(val.foodImages[0].url);
                 return (
                     <div key={ind} className='text-capitalize col-lg-4 ' >
                         <div className="card mb-4" style={{ maxWidth: "540px" }}>
@@ -51,7 +55,7 @@ const FoodCard = () => {
                                         {val.foodLabel === 'veg' ? (<RadioButtonCheckedIcon className='text-success fs-3' />) : (<RadioButtonCheckedIcon className='text-danger' />)}
                                     </div>
                                     <div className=' p-2 d-flex justify-content-start'>
-                                        <span><SyncIcon className='text-warning fs-1 foodItemButton' onClick={() => navigate('/dashboard/update-food', { state: val })} /></span>
+                                        <span><SyncIcon className='text-warning fs-1 foodItemButton' onClick={() => handleUpdateClick(val._id)} /></span>
                                         <span><DeleteIcon className='text-danger fs-1 leftPaddForIcon foodItemButton' onClick={() => handleFoodCardDelete(val._id)} /></span>
                                     </div>
                                 </div>

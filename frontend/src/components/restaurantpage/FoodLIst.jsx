@@ -33,7 +33,6 @@ const FoodLIst = () => {
             <div className="row" id="foodList">
 
                 {FoodData.map((val, ind) => {
-                    console.log(val);
                     return (
                         <div key={ind} className='text-capitalize col-lg-4 text-cursor overflow-hidden' >
                             <div className="card mb-5" style={{ maxWidth: "540px" }}>
@@ -52,7 +51,7 @@ const FoodLIst = () => {
                                             {val.foodLabel === 'veg' ? (<RadioButtonCheckedIcon className='text-success fs-3' />) : (<RadioButtonCheckedIcon className='text-danger' />)}
                                         </div>
                                         <div className=' p-2 d-flex justify-content-start'>
-                                            <span><SyncIcon className='text-warning fs-1 foodItemButton' onClick={() => navigate('/dashboard/update-food', { state: val })} /></span>
+                                            <span><SyncIcon className='text-warning fs-1 foodItemButton' onClick={() => { navigate('/dashboard/update-food', { state: val.RestaurantName.token }); localStorage.setItem('foodId', val._id); }} /></span>
                                             <span><DeleteIcon className='text-danger fs-1 leftPaddForIcon foodItemButton' onClick={() => handleFoodCardDelete(val._id)} /></span>
                                         </div>
                                     </div>
