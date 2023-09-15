@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import RestaurantNavbar from '../components/RestaurantNavbar'
+import RestaurantNavbar from '../components/DynamicNavbar'
 import '../components/restaurantpage/restaurant.css'
 import { Outlet } from 'react-router-dom'
+import RestaurantNavbarRoutes from '../components/restaurantpage/RestaurantNavbarRoutes'
 
 const RestaurantPage = () => {
     const [userData, setUserData] = useState({})
@@ -31,7 +32,7 @@ const RestaurantPage = () => {
     return (
         <>
             <div className="d-flex flex-row justify-content-center">
-                <RestaurantNavbar />
+                <RestaurantNavbar route={RestaurantNavbarRoutes} />
                 <div className='ms-5 w-100'>
                     <Outlet />
                 </div>

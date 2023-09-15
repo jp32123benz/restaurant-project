@@ -1,57 +1,18 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import './restaurantpage/restaurant.css';
-import {
-    FaHome,
-    FaHamburger,
-    FaBars,
-    FaPlusCircle,
-    FaAddressBook,
-    FaShoppingCart,
-    FaUserAlt,
-    FaSignOutAlt,
-} from 'react-icons/fa';
+import { FaBars, FaSignOutAlt } from 'react-icons/fa';
 import { useState } from 'react';
 
-const RestaurantNavbar = () => {
+const RestaurantNavbar = ({ routes }) => {
     const [isOpen, setIsOpen] = useState(false);
-
-    const routes = [
-        {
-            path: '/dashboard',
-            name: 'Home',
-            icon: <FaHome />,
-        },
-        {
-            path: '/dashboard/create-food',
-            name: 'Add Food',
-            icon: <FaPlusCircle />,
-        },
-        {
-            path: '/dashboard/inventory',
-            name: 'Food List',
-            icon: <FaHamburger />,
-        },
-        {
-            path: '/dashboard/order',
-            name: 'Order',
-            icon: <FaShoppingCart />,
-        },
-        {
-            path: '/dashboard/create-staff',
-            name: 'Add Staff',
-            icon: <FaUserAlt />,
-        },
-        {
-            path: '/dashboard/staff-list',
-            name: 'Staff List',
-            icon: <FaAddressBook />,
-        },
-    ];
 
     const handleLogOut = () => {
         localStorage.clear()
         window.location.href = '/';
+    }
+    if (!routes) {
+        return
     }
     return (
         <>

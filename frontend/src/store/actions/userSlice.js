@@ -4,26 +4,62 @@ const initialState = {
     isLoading: false,
     isRejected: false,
     userData: {},
+    loginData: {},
     role: ""
 }
 
-export const fetchData = createAsyncThunk(
-    '/dashboard',
-    async (token, id, { rejectWithValue }) => {
-        console.log('token and id', token, id);
+// export const fetchUserData = createAsyncThunk(
+//     '/dashboard',
+//     async (token, id, { rejectWithValue }) => {
+//         console.log('token and id', token, id);
+//         try {
+//             const res = await fetch('http://localhost:4000/api/v1/user/get-user', {
+//                 method: 'GET',
+//                 headers: {
+//                     "Content-type": "application/json",
+//                     "Authorization": `Bearers ${token}`
+//                 },
+//                 body: JSON.stringify(id)
+//             })
+//             console.log('res in slice ', res);
+//             return res
+//         } catch (err) {
+//             rejectWithValue(err)
+//         }
+//     }
+// )
+
+export const LoginUser = createAsyncThunk(
+    '/loginUserData',
+    async (loginData, { rejectWithValue }) => {
         try {
-            const res = await fetch('http://localhost:4000/api/v1/user/get-user', {
-                method: 'GET',
+            const res = await fetch('http://localhost:4000/api/v1/user/login-user', {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(loginData)
+            })
+            return await res.json()
+        } catch (err) {
+            rejectWithValue(err)
+        }
+    })
+
+export const fetchUserData = createAsyncThunk(
+    '/getUserData/role',
+    async (token, id, { rejectWithValue }) => {
+        try {
+            const res = await fetch(`http://localhost:4000/api/v1/user/get-user/${id}`, {
+                method: "GET",
                 headers: {
                     "Content-type": "application/json",
                     "Authorization": `Bearers ${token}`
                 },
-                body: JSON.stringify(id)
             })
-            console.log('res in slice ', res);
-            return res
+            return await res.json()
         } catch (err) {
-            rejectWithValue(err)
+            rejectWithValue(err);
         }
     }
 )
@@ -32,25 +68,35 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        getUserData: (state, action) => {
+        getUserRole(state, action) {
             state.role = action.payload
         }
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchData.fulfilled, (state, action) => {
+            .addCase(fetchUserData.fulfilled, (state, action) => {
+                console.log(action.payload);
                 state.userData = action.payload
             })
-            .addCase(fetchData.pending, (state) => {
+            .addCase(fetchUserData.pending, (state) => {
                 state.isRejected = false
             })
-            .addCase(fetchData.rejected, (state) => {
+            .addCase(fetchUserData.rejected, (state) => {
+                state.isRejected = true
+            })
+
+            .addCase(LoginUser.fulfilled, (state, action) => {
+                state.loginData = action.payload
+            })
+            .addCase(LoginUser.pending, (state) => {
+                state.isRejected = false
+            })
+            .addCase(LoginUser.rejected, (state) => {
                 state.isRejected = true
             })
     }
 })
 
-
-export const { getUserData } = userSlice.actions
+export { getUserRole } from userSlice.actions
 
 export default userSlice.reducer

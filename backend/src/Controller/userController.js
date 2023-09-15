@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs')
 const fs = require('fs')
 const cloudinary = require('cloudinary').v2
 const jwt = require('jsonwebtoken')
+const sendEmail = require('./utilityController/sendEmail')
 
 module.exports = {
     createUser: async (req, res) => {
@@ -73,7 +74,7 @@ module.exports = {
         }
     },
     getUser: async (req, res) => {
-        const { id } = req.body
+        const { id } = req.params
         try {
             const GetData = await User.findOne({ _id: id })
             if (GetData) {
@@ -93,6 +94,7 @@ module.exports = {
             const isVerified = jwt.verify(token, process.env.SECRET_KEY)
             if (isVerified) {
                 const link = `${process.env.BASE_URL}/update-password/${isUser._id}/${isUser.token}`;
+                console.log('forgotUserPassword', link);
                 await sendEmail(isUser.email, "Password reset", link);
                 return res.status(200).json({ msg: "Password reset link sent to your email account", token });
             } else
@@ -103,13 +105,15 @@ module.exports = {
     },
     updateUserPassword: async (req, res) => {
         const { id, token } = req.params
-        const { newPassword } = req.body
+        const { newpassword } = req.body
         try {
             const isUser = await User.findOne({ _id: id })
             if (isUser) {
                 const isToken = jwt.verify(token, process.env.SECRET_KEY)
                 if (isToken) {
-                    isUser.password = await bcrypt.hash(newPassword, 10)
+                    isUser.password = await bcrypt.hash(newpassword, 10)
+                    // console.log(isToken);
+                    await isUser.save();
                     return res.status(200).json({ statusCode: 200, msg: "Password Updated Successfully" })
                 }
             } else return res.status(400).json({ statusCode: 400, msg: "Failed, Please try again !" })

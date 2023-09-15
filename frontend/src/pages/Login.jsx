@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import '../components/form/form.css'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { getUserData } from '../store/actions/userSlice'
-import axios from 'axios'
-
+import { LoginUser, getUserRole } from '../store/actions/userSlice'
 
 const Login = () => {
     const dispatch = useDispatch()
@@ -24,21 +22,19 @@ const Login = () => {
 
     const handleLoginSubmit = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:4000/api/v1/user/login-user', loginData)
-            .then(response => {
-                if (response.data.statusCode === 200) {
-                    const { role, token, id } = response.data
-                    localStorage.setItem('token', token)
-                    localStorage.setItem('role', role)
-                    localStorage.setItem('id', id)
-                    dispatch(getUserData(role))
-                    if (role === 'staff' || role === 'admin' || role === 'user' || role === 'restaurant') {
-                        navigate('/dashboard')
-                    }
-                }
-            }).catch(err => {
-                setHandleError({ status: true, msg: err.response.data.msg })
-            })
+        dispatch(LoginUser(loginData)).then((response) => {
+            console.log(response.payload);
+            const { role, token, id } = response.payload
+            localStorage.setItem('token', token)
+            localStorage.setItem('role', role)
+            localStorage.setItem('id', id)
+            dispatch(getUserRole(role))
+            if (role === 'staff' || role === 'admin' || role === 'user' || role === 'restaurant') {
+                navigate('/dashboard', { replace: true })
+            } else {
+                setHandleError({ status: true, msg: response.payload.msg })
+            }
+        }).catch(err => setHandleError({ status: true, msg: err }))
     }
 
     useEffect(() => {

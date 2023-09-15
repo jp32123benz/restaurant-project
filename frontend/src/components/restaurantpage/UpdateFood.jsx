@@ -34,37 +34,35 @@ const UpdateFood = () => {
     }
 
     const handleRegisterFormSubmit = async (e) => {
-        console.log('in submit', updateData);
         e.preventDefault();
-        updateData.foodImages.push(imageData)
-        try {
-            const res = await fetch('http://localhost:4000/api/v1/restaurants-food/update-restaurant-food', {
-                method: "PUT",
-                headers: {
-                    "Content-type": "application/json",
-                    "Authorization": `Bearers ${token}`
-                },
-                body: JSON.stringify(updateData)
+        console.log(updateData.foodImages.length);
+        if (updateData.foodImages.length < 4) {
+            const newImageArray = [...updateData.foodImages, { imageData }];
+            // setUpdateData({ ...updateData, foodImages: newImageArray });
+            try {
+                const res = await fetch('http://localhost:4000/api/v1/restaurants-food/update-restaurant-food', {
+                    method: "PUT",
+                    headers: {
+                        "Content-type": "application/json",
+                        "Authorization": `Bearers ${token}`
+                    },
+                    body: JSON.stringify({ ...updateData, foodImages: newImageArray })
+                }
+                )
+                const result = await res.json();
+
+                if (result.statusCode === 200) {
+                    setHandleError({ status: true, msg: result.msg })
+                } else {
+                    setHandleError({ status: false, msg: result.msg })
+                    // setInterval(() => { window.location.reload() }, 2000)
+                }
+            } catch (err) {
+                setHandleError({ status: false, msg: err.msg })
+                // window.location.reload()
             }
-            )
-            const result = await res.json()
-            if (result.statusCode === 200) {
-                setUpdateData({
-                    foodName: "",
-                    foodCategory: "",
-                    price: "",
-                    foodLabel: "veg",
-                    restaurantId: "",
-                })
-                setImageData('')
-                setHandleError({ status: true, msg: result.msg })
-            } else {
-                setHandleError({ status: false, msg: result.msg })
-                // setInterval(() => { window.location.reload() }, 2000)
-            }
-        } catch (err) {
-            setHandleError({ status: false, msg: err.msg })
-            // window.location.reload()
+        } else {
+            setHandleError({ status: false, msg: "You can't add more than 4 images" })
         }
     }
 
@@ -80,10 +78,8 @@ const UpdateFood = () => {
                 },
             })
             const result = await res.json()
-            console.log('result in update food ============', result);
             if (result.statusCode === 200) {
                 setHandleError({ status: true, msg: result.msg })
-                setInterval(() => { window.location.reload() }, 2000)
             } else {
                 setHandleError({ status: false, msg: result.msg })
             }
@@ -118,17 +114,16 @@ const UpdateFood = () => {
         })
     }, [FoodItem])
 
-    if (!updateData.foodCategory) {
+    if (updateData.foodCategory == undefined || updateData.foodId == undefined || updateData.foodImages == undefined || updateData.foodLabel == undefined || updateData.foodName == undefined || updateData.price == undefined || updateData.restaurantId == undefined) {
         return <h1>Loading...</h1>
     }
     return (
         <>
             <div className="d-flex flex-column FoodForm" id='UpdateFood'>
-                {handleError && <p className={`${handleError.status ? 'bg-of-success-text' : 'bg-of-text'} text-bold fs-2 text-center`}>{handleError.msg}</p>}
                 <h2 className='text-center mb-5'>Update Food Details</h2>
                 <form className="register-form text-capitalize" onSubmit={handleRegisterFormSubmit}>
                     <div>
-                        <input value={updateData.foodName} onChange={handleUpdateData} className='text-capitalize' name='foodName' type="text" id="foodname" placeholder="Food Name" required />
+                        <input value={updateData.foodName} onChange={handleUpdateData} className='text-capitalize' name='foodName' type="text" id="foodname" placeholder="Food Name" />
                     </div>
                     <div>
                         <select onChange={handleUpdateData} name="foodLabel" id="foodlabel" defaultValue={updateData.foodLabel}>
@@ -150,14 +145,14 @@ const UpdateFood = () => {
                         </select>
                     </div>
                     <div>
-                        <input value={updateData.price} onChange={handleUpdateData} name='price' type="text" id="price" placeholder="Price" required />
+                        <input value={updateData.price} onChange={handleUpdateData} name='price' type="text" id="price" placeholder="Price" />
                     </div>
                     <div>
-                        <input onChange={handleImageChange} name='profile' type="file" id="profile" multiple required />
+                        <input onChange={handleImageChange} name='profile' type="file" id="profile" />
                     </div>
                     <div className='row'>
                         {
-                            updateData?.foodImages.map((val, ind) => {
+                            updateData.foodImages.map((val, ind) => {
                                 return (
                                     <div key={ind} className='imageCardForUpdate col-md-3 mb-5'>
                                         <img src={val.url} alt="..." className='mb-3' />
@@ -169,8 +164,9 @@ const UpdateFood = () => {
                             })
                         }
                     </div>
+                    {handleError && <p className={`${handleError.status ? 'bg-of-success-text' : 'bg-of-text'} text-bold fs-2 text-center`}>{handleError.msg}</p>}
                     <button type="submit" className='goBackButtonInFullCard justify-content-center mb-3'>Update</button>
-                    <p className="toggle-form goBackButtonInFullCard bg-danger" onClick={() => navigate(-1)}>Go Back</p>
+                    <p className="toggle-form goBackButtonInFullCard bg-danger text-cursor" onClick={() => navigate(-1)}>Go Back</p>
                 </form >
             </div >
         </>

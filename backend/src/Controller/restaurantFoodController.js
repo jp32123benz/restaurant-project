@@ -115,28 +115,33 @@ module.exports = {
 
   updateRestaurantFood: async (req, res) => {
     const newData = req.body;
-    try {
-      const result = await cloudinary.uploader.upload(newData.foodImages.pop(), { folder: 'foodImages' });
-      // console.log('is here', req.body.foodImages);
-      let uploadedImages = { url: result.secure_url, public_id: result.public_id };
-      const updateData = await RestaurantFood.findByIdAndUpdate(
-        { _id: req.body.foodId },
-        { ...newData, foodImages: uploadedImages },
-        { new: true }
-      );
-      if (updateData.modifiedCount !== 0)
-        res.status(200).json({
-          statusCode: 200,
-          msg: "Restaurant Food updated Succesfully",
-          updateData,
+    if (newData.foodImages.length < 4) {
+      const allImageData = newData.foodImages.slice(0, -1)
+      try {
+        const result = await cloudinary.uploader.upload(newData.foodImages.pop().imageData, { folder: 'foodImages' });
+        let uploadedImages = { url: result.secure_url, public_id: result.public_id };
+        allImageData.push(uploadedImages)
+        const updateData = await RestaurantFood.findByIdAndUpdate(
+          { _id: req.body.foodId },
+          { ...newData, foodImages: allImageData },
+          { new: true }
+        );
+        if (updateData.modifiedCount !== 0)
+          res.status(200).json({
+            statusCode: 200,
+            msg: "Restaurant Food updated Succesfully",
+            updateData,
+          });
+        else res.status(400).json({ statusCode: 400, msg: "Restaurant Food can't be updated", });
+      } catch (err) {
+        res.status(400).json({
+          statusCode: 400,
+          err,
+          msg: "Restaurant Food can't be updated",
         });
-      else res.status(400).json({ statusCode: 400, msg: "Restaurant Food can't be updated", });
-    } catch (err) {
-      res.status(400).json({
-        statusCode: 400,
-        err,
-        msg: "Restaurant Food can't be updated",
-      });
+      }
+    } else {
+      return res.status(400).json({ statusCode: 400, msg: "You can't add more than 4 images", });
     }
   },
 

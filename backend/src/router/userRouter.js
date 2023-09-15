@@ -14,7 +14,7 @@ router.put('/update-user', AuthMiddleware, upload.single('profile'), updateUser)
 
 router.delete('/delete-user', AuthMiddleware, deleteUser)
 
-router.post('/get-user', AuthMiddleware, getUser)
+router.get('/get-user/:id', AuthMiddleware, getUser)
 
 router.post('/forgot-user-password', forgotUserPassword)
 
